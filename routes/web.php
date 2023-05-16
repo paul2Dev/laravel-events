@@ -18,6 +18,6 @@ Route::get('/', function () {
 });
 
 Route::get('/google-calendar', function () {
-    $events = \Spatie\GoogleCalendar\Event::get()->first();
-    dd($events->name);
+    $events = \Spatie\GoogleCalendar\Event::get();
+    dd($events);
 });
