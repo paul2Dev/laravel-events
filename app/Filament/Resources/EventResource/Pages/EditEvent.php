@@ -5,6 +5,9 @@ namespace App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Spatie\GoogleCalendar\Event as GoogleCalendarEvent;
+use Carbon\Carbon;
+
 
 class EditEvent extends EditRecord
 {
@@ -24,7 +27,15 @@ class EditEvent extends EditRecord
 
     protected function afterSave(): void
     {
-        //to do - update event for google calendar
+        if($this->record->is_GoogleCalendarEvent && $this->record->google_calendar_event_id != null) {
+            $event = GoogleCalendarEvent::find($this->record->google_calendar_event_id);
+
+            $event->name = $this->record->name;
+            $event->description = $this->record->description;
+            $event->startDateTime = Carbon::parse($this->record->start_DateTime);
+            $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+            $event->save();
+        }
 
         $this->record->last_updated_by = auth()->user()->id;
         $this->record->save();

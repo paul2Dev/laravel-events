@@ -5,6 +5,8 @@ namespace App\Filament\Resources\EventResource\Pages;
 use App\Filament\Resources\EventResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Spatie\GoogleCalendar\Event as GoogleCalendarEvent;
+use Carbon\Carbon;
 
 class CreateEvent extends CreateRecord
 {
@@ -17,7 +19,18 @@ class CreateEvent extends CreateRecord
 
     protected function afterCreate(): void
     {
-        //to do - create event for google calendar
+        if($this->record->is_GoogleCalendarEvent) {
+            $event = new GoogleCalendarEvent;
+
+            $event->name = $this->record->name;
+            $event->description = $this->record->description;
+            $event->startDateTime = Carbon::parse($this->record->start_DateTime);
+            $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+            $newEvent = $event->save();
+            if($newEvent->id) {
+                $this->record->google_calendar_event_id = $newEvent->id;
+            }
+        }
 
         $this->record->created_by = auth()->user()->id;
         $this->record->save();

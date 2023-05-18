@@ -18,17 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/google-calendar', function () {
-    //$events = \Spatie\GoogleCalendar\Event::get();
+    $events = \Spatie\GoogleCalendar\Event::get();
 
-    //create a new event example
-    $event = new \Spatie\GoogleCalendar\Event;
-
-    $event->name = 'A new laravel event';
-    $event->description = 'Event description';
-    $event->startDateTime = Carbon\Carbon::now();
-    $event->endDateTime = Carbon\Carbon::now()->addHour();
-
-    $event->save();
-
-    dd($event);
+    dd($events);
 });

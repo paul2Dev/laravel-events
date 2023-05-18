@@ -25,8 +25,9 @@ class EventResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')->required(),
                 Forms\Components\Textarea::make('description'),
-                Forms\Components\DateTimePicker::make('startDateTime')->required(),
-                Forms\Components\DateTimePicker::make('endDateTime')->required(),
+                Forms\Components\DateTimePicker::make('start_DateTime')->required(),
+                Forms\Components\DateTimePicker::make('end_DateTime')->required(),
+                Forms\Components\Checkbox::make('is_GoogleCalendarEvent')->label('Save it in Google Calendar?'),
             ]);
     }
 
@@ -35,9 +36,9 @@ class EventResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('startDateTime'),
-                Tables\Columns\TextColumn::make('endDateTime'),
+                Tables\Columns\TextColumn::make('start_DateTime'),
+                Tables\Columns\TextColumn::make('end_DateTime'),
+                Tables\Columns\BooleanColumn::make('is_GoogleCalendarEvent'),
             ])
             ->filters([
                 //
