@@ -21,4 +21,12 @@ class EditEvent extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function afterSave(): void
+    {
+        //to do - update event for google calendar
+
+        $this->record->last_updated_by = auth()->user()->id;
+        $this->record->save();
+    }
 }

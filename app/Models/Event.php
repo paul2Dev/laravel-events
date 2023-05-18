@@ -16,6 +16,8 @@ class Event extends Model
         'startDateTime',
         'endDateTime',
         'user_id',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()
