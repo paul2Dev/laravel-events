@@ -28,6 +28,7 @@ class EventResource extends Resource
                 Forms\Components\DateTimePicker::make('start_DateTime')->required(),
                 Forms\Components\DateTimePicker::make('end_DateTime')->required(),
                 Forms\Components\Checkbox::make('is_GoogleCalendarEvent')->label('Save it in Google Calendar?'),
+                Forms\Components\Checkbox::make('is_allDayEvent')->label('Is all day event?'),
             ]);
     }
 
@@ -39,6 +40,7 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('start_DateTime'),
                 Tables\Columns\TextColumn::make('end_DateTime'),
                 Tables\Columns\BooleanColumn::make('is_GoogleCalendarEvent'),
+                Tables\Columns\BooleanColumn::make('is_allDayEvent'),
             ])
             ->filters([
                 //

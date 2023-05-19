@@ -32,8 +32,15 @@ class EditEvent extends EditRecord
 
             $event->name = $this->record->name;
             $event->description = $this->record->description;
-            $event->startDateTime = Carbon::parse($this->record->start_DateTime);
-            $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+
+            if($this->record->is_allDayEvent) {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime)->startOfDay();
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime)->endOfDay();
+            } else {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime);
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+            }
+
             $event->save();
         }
 

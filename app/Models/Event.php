@@ -19,6 +19,7 @@ class Event extends Model
         'updated_by',
         'is_GoogleCalendarEvent',
         'google_calendar_event_id',
+        'is_allDayEvent'
     ];
 
     public function user()

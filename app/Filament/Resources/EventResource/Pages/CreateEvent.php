@@ -24,9 +24,17 @@ class CreateEvent extends CreateRecord
 
             $event->name = $this->record->name;
             $event->description = $this->record->description;
-            $event->startDateTime = Carbon::parse($this->record->start_DateTime);
-            $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+
+            if($this->record->is_allDayEvent) {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime)->startOfDay();
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime)->endOfDay();
+            } else {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime);
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+            }
+
             $newEvent = $event->save();
+
             if($newEvent->id) {
                 $this->record->google_calendar_event_id = $newEvent->id;
             }
