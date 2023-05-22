@@ -42,6 +42,30 @@ class EditEvent extends EditRecord
             }
 
             $event->save();
+
+        } elseif($this->record->is_GoogleCalendarEvent && $this->record->google_calendar_event_id == null) {
+            //add to google calendar
+            $event = new GoogleCalendarEvent;
+            $event->name = $this->record->name;
+            $event->description = $this->record->description;
+
+            if($this->record->is_allDayEvent) {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime)->startOfDay();
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime)->endOfDay();
+            } else {
+                $event->startDateTime = Carbon::parse($this->record->start_DateTime);
+                $event->endDateTime = Carbon::parse($this->record->end_DateTime);
+            }
+
+            $newEvent = $event->save();
+
+            if($newEvent->id) {
+                $this->record->google_calendar_event_id = $newEvent->id;
+            }
+        } elseif($this->record->is_GoogleCalendarEvent == null && $this->record->google_calendar_event_id != null) {
+            $event = GoogleCalendarEvent::find($this->record->google_calendar_event_id);
+            $event->delete();
+            $this->record->google_calendar_event_id = null;
         }
 
         $this->record->last_updated_by = auth()->user()->id;
